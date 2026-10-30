@@ -1,11 +1,10 @@
-package com.abhishekvermaa10;
+package com.sravanth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.PropertySource;
 
-/**
- * @author abhishekvermaa10
- */
+@PropertySource ("classpath:messages.properties")
 @SpringBootApplication
 public class Demo {
 

@@ -1,4 +1,4 @@
-package com.abhishekvermaa10.dto;
+package com.sravanth.dto;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,9 +6,7 @@ import java.util.Map;
 import lombok.Getter;
 import lombok.ToString;
 
-/**
- * @author abhishekvermaa10
- */
+
 @ToString
 @Getter
 public class PetStatisticsDTO {

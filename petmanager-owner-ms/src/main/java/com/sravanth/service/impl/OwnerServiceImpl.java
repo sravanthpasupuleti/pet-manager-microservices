@@ -11,11 +11,13 @@ import org.springframework.stereotype.Service;
 
 import com.sravanth.dto.MailDTO;
 import com.sravanth.dto.OwnerDTO;
+import com.sravanth.dto.PetDTO;
 import com.sravanth.entity.Owner;
 import com.sravanth.exception.OwnerNotFoundException;
 import com.sravanth.repository.OwnerRepository;
 import com.sravanth.service.MailService;
 import com.sravanth.service.OwnerService;
+import com.sravanth.service.PetService;
 import com.sravanth.util.OwnerMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -30,30 +32,41 @@ public class OwnerServiceImpl implements OwnerService {
 	private final OwnerRepository ownerRepository;
 	private final OwnerMapper ownerMapper;
 	private final MailService mailService;
+	private final PetService petService;
 	@Value("${owner.not.found}")
 	private String ownerNotFound;
 	
 	@Override
 	public Integer saveOwner(OwnerDTO ownerDTO) {
+		int petId = petService.savePet(ownerDTO.getPetDTO());
+		ownerDTO.getPetDTO().setId(petId);
 		Owner owner = ownerMapper.ownerDTOToOwner(ownerDTO);
 		ownerRepository.save(owner);
-		MailDTO mailDTO = new MailDTO(ownerDTO.getEmailId(), ownerDTO.getFirstName(), ownerDTO.getLastName(), WELCOME);
-		log.info(mailService.sendEmail(mailDTO));
+		// MailDTO mailDTO = new MailDTO(ownerDTO.getEmailId(), ownerDTO.getFirstName(), ownerDTO.getLastName(), WELCOME);
+		// log.info(mailService.sendEmail(mailDTO));
 		return owner.getId();
 	}
 
 	@Override
 	public OwnerDTO findOwner(int ownerId) throws OwnerNotFoundException {
 		return ownerRepository.findById(ownerId)
-				.map(ownerMapper::ownerToOwnerDTO)
+				.map(o -> {
+					PetDTO petDTO = petService.finPetDTO(o.getPetId());
+					OwnerDTO ownerDTO = ownerMapper.ownerToOwnerDTO(o);
+					ownerDTO.setPetDTO(petDTO);
+					return ownerDTO;
+				})
 				.orElseThrow(() -> new OwnerNotFoundException(String.format(ownerNotFound, ownerId)));
 	}
 	
 	@Override
 	public void updatePetDetails(int ownerId, String petName) throws OwnerNotFoundException {
 		Owner owner = ownerRepository.findById(ownerId)
+				.map(o -> {
+					petService.updatePetDetails(ownerId, petName);
+					return o;
+				})
 				.orElseThrow(() -> new OwnerNotFoundException(String.format(ownerNotFound, ownerId)));
-		owner.getPet().setName(petName);
 		ownerRepository.save(owner);
 		MailDTO mailDTO = new MailDTO(owner.getEmailId(), owner.getFirstName(), owner.getLastName(), MODIFY);
 		log.info(mailService.sendEmail(mailDTO));
@@ -62,6 +75,10 @@ public class OwnerServiceImpl implements OwnerService {
 	@Override
 	public void deleteOwner(int ownerId) throws OwnerNotFoundException {
 		Owner owner = ownerRepository.findById(ownerId)
+				.map(o -> {
+					petService.deletePet(o.getPetId());
+					return o;
+				})
 				.orElseThrow(() -> new OwnerNotFoundException(String.format(ownerNotFound, ownerId)));
 		ownerRepository.deleteById(ownerId);
 		MailDTO mailDTO = new MailDTO(owner.getEmailId(), owner.getFirstName(), owner.getLastName(), EXIT);
@@ -71,7 +88,12 @@ public class OwnerServiceImpl implements OwnerService {
 	@Override
 	public Page<OwnerDTO> findAllOwners(Pageable pageable) {
 		return ownerRepository.findAll(pageable)
-				.map(ownerMapper::ownerToOwnerDTO);
+				.map(o -> { 
+					PetDTO petDTO = petService.finPetDTO(o.getPetId());
+					OwnerDTO ownerDTO = ownerMapper.ownerToOwnerDTO(o);
+					ownerDTO.setPetDTO(petDTO);
+					return ownerDTO;
+				});
 	}
 
 }

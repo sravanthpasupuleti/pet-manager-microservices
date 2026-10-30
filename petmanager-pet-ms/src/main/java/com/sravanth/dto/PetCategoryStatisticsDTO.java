@@ -1,16 +1,14 @@
-package com.abhishekvermaa10.dto;
+package com.sravanth.dto;
 
 import java.util.EnumMap;
 import java.util.Map;
 
-import com.abhishekvermaa10.enums.Gender;
+import com.sravanth.enums.Gender;
 
 import lombok.Getter;
 import lombok.ToString;
 
-/**
- * @author abhishekvermaa10
- */
+
 @ToString
 @Getter
 public class PetCategoryStatisticsDTO {

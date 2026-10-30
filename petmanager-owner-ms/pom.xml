@@ -10,7 +10,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.sravanth</groupId>
-	<artifactId>Petistaan-OwnerMS</artifactId>
+	<artifactId>petmanager-owner-ms</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Petistaan-OwnerMS</name>
 	<description>Demo project for Spring Boot</description>

@@ -1,4 +1,4 @@
-package com.abhishekvermaa10.controller;
+package com.sravanth.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,14 +7,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.abhishekvermaa10.dto.MailDTO;
-import com.abhishekvermaa10.service.MailService;
-
+import com.sravanth.dto.MailDTO;
+import com.sravanth.service.MailService;
 import lombok.RequiredArgsConstructor;
 
-/**
- * @author abhishekvermaa10
- */
+
 @RequiredArgsConstructor
 @RequestMapping("/mails")
 @RestController

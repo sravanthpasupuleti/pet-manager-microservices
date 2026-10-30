@@ -1,4 +1,4 @@
-package com.abhishekvermaa10.service.impl;
+package com.sravanth.service.impl;
 
 import java.io.StringWriter;
 import java.io.Writer;
@@ -11,17 +11,15 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import com.abhishekvermaa10.dto.MailDTO;
-import com.abhishekvermaa10.enums.MailType;
-import com.abhishekvermaa10.service.MailService;
+import com.sravanth.dto.MailDTO;
+import com.sravanth.enums.MailType;
+import com.sravanth.service.MailService;
 
 import freemarker.template.Configuration;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 
-/**
- * @author abhishekvermaa10
- */
+
 @RequiredArgsConstructor
 @Service
 public class MailServiceImpl implements MailService {

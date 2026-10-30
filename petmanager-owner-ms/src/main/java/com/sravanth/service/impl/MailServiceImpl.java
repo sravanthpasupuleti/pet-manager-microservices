@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class MailServiceImpl implements MailService {
 
 	private final RestClient restClient;
+	
 	@Value("${mail.service.base.url}")
 	private String mailServiceBaseUrl;
 

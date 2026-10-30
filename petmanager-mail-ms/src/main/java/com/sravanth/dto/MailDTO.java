@@ -1,10 +1,8 @@
-package com.abhishekvermaa10.dto;
+package com.sravanth.dto;
 
-import com.abhishekvermaa10.enums.MailType;
+import com.sravanth.enums.MailType;
 
-/**
- * @author abhishekvermaa10
- */
+
 public record MailDTO(String to, String firstName, String lastName, MailType category) {
 
 }

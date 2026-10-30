@@ -1,4 +1,4 @@
-package com.abhishekvermaa10.controller.advice;
+package com.sravanth.controller.advice;
 
 import java.time.LocalDateTime;
 
@@ -8,11 +8,9 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.abhishekvermaa10.dto.ErrorDTO;
+import com.sravanth.dto.ErrorDTO;
 
-/**
- * @author abhishekvermaa10
- */
+
 @RestControllerAdvice
 public class ExceptionControllerAdvice {
 	

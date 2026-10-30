@@ -1,15 +1,13 @@
-package com.abhishekvermaa10.repository;
+package com.sravanth.repository;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.abhishekvermaa10.entity.Pet;
+import com.sravanth.entity.Pet;
 
-/**
- * @author abhishekvermaa10
- */
+
 public interface PetRepository extends JpaRepository<Pet, Integer> {
 
 	@Query("""

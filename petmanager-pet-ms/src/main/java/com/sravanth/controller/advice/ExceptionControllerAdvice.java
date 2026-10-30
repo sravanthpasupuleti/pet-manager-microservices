@@ -1,4 +1,4 @@
-package com.abhishekvermaa10.controller.advice;
+package com.sravanth.controller.advice;
 
 import java.time.LocalDateTime;
 
@@ -8,13 +8,18 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.abhishekvermaa10.dto.ErrorDTO;
+import com.sravanth.dto.ErrorDTO;
+import com.sravanth.exceptions.PetNotFoundException;
 
-/**
- * @author abhishekvermaa10
- */
+
 @RestControllerAdvice
 public class ExceptionControllerAdvice {
+
+	@ExceptionHandler 
+	public ResponseEntity<ErrorDTO> handlePetNotFoundException(PetNotFoundException exception){
+		ErrorDTO errorDTO = new ErrorDTO(exception.getMessage(), HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.value(), LocalDateTime.now());
+		return ResponseEntity.status(errorDTO.status()).body(errorDTO);
+	}
 	
 	@ExceptionHandler
 	public ResponseEntity<ErrorDTO> handleMethodNotAllowedException(HttpRequestMethodNotSupportedException exception) {

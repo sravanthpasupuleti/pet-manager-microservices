@@ -1,8 +1,6 @@
-package com.abhishekvermaa10.enums;
+package com.sravanth.enums;
 
-/**
- * @author abhishekvermaa10
- */
+
 public enum Gender {
 	
 	M,

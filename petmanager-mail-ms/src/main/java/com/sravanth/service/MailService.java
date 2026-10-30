@@ -1,10 +1,8 @@
-package com.abhishekvermaa10.service;
+package com.sravanth.service;
 
-import com.abhishekvermaa10.dto.MailDTO;
+import com.sravanth.dto.MailDTO;
 
-/**
- * @author abhishekvermaa10
- */
+
 public interface MailService {
 
 	String sendEmail(MailDTO mailDTO);

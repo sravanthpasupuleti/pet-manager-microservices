@@ -1,27 +1,62 @@
-package com.abhishekvermaa10.service.impl;
+package com.sravanth.service.impl;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.abhishekvermaa10.dto.PetCategoryStatisticsDTO;
-import com.abhishekvermaa10.dto.PetGenderStatisticsDTO;
-import com.abhishekvermaa10.dto.PetStatisticsDTO;
-import com.abhishekvermaa10.enums.Gender;
-import com.abhishekvermaa10.enums.PetType;
-import com.abhishekvermaa10.repository.PetRepository;
-import com.abhishekvermaa10.service.PetService;
+import com.sravanth.dto.PetCategoryStatisticsDTO;
+import com.sravanth.dto.PetDTO;
+import com.sravanth.dto.PetGenderStatisticsDTO;
+import com.sravanth.dto.PetStatisticsDTO;
+import com.sravanth.entity.Pet;
+import com.sravanth.enums.Gender;
+import com.sravanth.enums.PetType;
+import com.sravanth.exceptions.PetNotFoundException;
+import com.sravanth.util.PetMapper;
+import com.sravanth.repository.PetRepository;
+import com.sravanth.service.PetService;
 
 import lombok.RequiredArgsConstructor;
 
-/**
- * @author abhishekvermaa10
- */
+
 @RequiredArgsConstructor
 @Service
 public class PetServiceImpl implements PetService {
 
 	private final PetRepository petRepository;
+	private final PetMapper petMapper;
+
+	@Value ("${pet.not.found}")
+	private String petNotFound;
+
+	@Override
+	public int savePet(PetDTO petDTO) {
+		Pet pet = petMapper.petDTOToPet(petDTO);
+		petRepository.save(pet);
+		return pet.getId();
+	}
+
+	@Override
+	public PetDTO findPet(int petId) throws PetNotFoundException {
+		return petRepository.findById(petId).map(petMapper::petToPetDTO).orElseThrow(() -> new PetNotFoundException(String.format(petNotFound, petId)));
+	}
+
+	@Override
+	public void updatePetName(int petId, String petName) throws PetNotFoundException {
+		Pet pet = petRepository.findById(petId).orElseThrow(() -> new PetNotFoundException(String.format(petNotFound, petId)));
+		pet.setName(petName);
+		petRepository.save(pet);
+	}
+
+	@Override
+	public void deletePet(int petId) throws PetNotFoundException {
+		if (petRepository.existsById(petId)) {
+			petRepository.deleteById(petId);
+		}else{
+			throw new PetNotFoundException(String.format(petNotFound, petId));
+		}
+	}
 
 	@Override
 	public PetStatisticsDTO getStatistics() {

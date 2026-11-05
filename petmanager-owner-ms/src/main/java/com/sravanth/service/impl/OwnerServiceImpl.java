@@ -42,8 +42,8 @@ public class OwnerServiceImpl implements OwnerService {
 		ownerDTO.getPetDTO().setId(petId);
 		Owner owner = ownerMapper.ownerDTOToOwner(ownerDTO);
 		ownerRepository.save(owner);
-		// MailDTO mailDTO = new MailDTO(ownerDTO.getEmailId(), ownerDTO.getFirstName(), ownerDTO.getLastName(), WELCOME);
-		// log.info(mailService.sendEmail(mailDTO));
+		MailDTO mailDTO = new MailDTO(ownerDTO.getEmailId(), ownerDTO.getFirstName(), ownerDTO.getLastName(), WELCOME);
+		log.info(mailService.sendEmail(mailDTO));
 		return owner.getId();
 	}
 

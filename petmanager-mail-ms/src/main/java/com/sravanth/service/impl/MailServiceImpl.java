@@ -33,6 +33,11 @@ public class MailServiceImpl implements MailService {
 	@Value("${failure.message}")
 	private String failureMessage;
 
+	@Value ("${server.port}")
+	private String serverPort;
+
+
+
 	@Override
 	public String sendEmail(MailDTO mailDTO) {
 		try {
@@ -43,10 +48,10 @@ public class MailServiceImpl implements MailService {
 			mimeMessageHelper.setSubject(mailDTO.category().getSubject());
 			mimeMessageHelper.setText(buildMailBodyWithTemplate(mailDTO.category(), mailDTO.firstName().concat(" ").concat(mailDTO.lastName())), true);
 			mailSender.send(message);
-			return String.format(successMessage, mailDTO.to(), LocalDateTime.now());
+			return String.format(successMessage, mailDTO.to(), LocalDateTime.now(), serverPort);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return String.format(failureMessage, mailDTO.to(), LocalDateTime.now());
+			return String.format(failureMessage, mailDTO.to(), LocalDateTime.now(), serverPort);
 		}
 	}
 

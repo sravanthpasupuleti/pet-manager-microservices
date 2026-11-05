@@ -15,14 +15,14 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class MailServiceImpl implements MailService {
 
-	private final RestClient restClient;
+	private final RestClient loadBalancedRestClient;
 	
-	@Value("${mail.service.base.url}")
+	@Value("${mail.service.base.uri}")
 	private String mailServiceBaseUrl;
 
 	@Override
 	public String sendEmail(MailDTO mailDTO) {
-		ResponseEntity<String> response = restClient.post()
+		ResponseEntity<String> response = loadBalancedRestClient.post()
 				.uri(mailServiceBaseUrl)
 				.body(mailDTO)
 				.retrieve()

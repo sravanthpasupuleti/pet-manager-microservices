@@ -45,7 +45,7 @@ public class PetServiceImpl implements PetService{
     public void updatePetDetails(int petId, String petName) {
         UpdatePetDTO updatePetDTO = new UpdatePetDTO(petName);
         restClient.patch()
-        .uri(petServiceBaseUri)
+        .uri(petServiceBaseUri + "/{petId}", petId)
         .body(updatePetDTO)
         .retrieve()
         .toBodilessEntity();

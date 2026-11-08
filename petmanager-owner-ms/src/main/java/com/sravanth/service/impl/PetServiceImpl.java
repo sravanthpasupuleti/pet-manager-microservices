@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor 
 public class PetServiceImpl implements PetService{
 
-    private final RestClient restClient;
+    private final RestClient loadBalancedRestClient;
 
     @Value("${pet.service.base.uri}")
     private String petServiceBaseUri;
@@ -23,7 +23,7 @@ public class PetServiceImpl implements PetService{
 
     @Override
     public int savePet(PetDTO petDTO) {
-        ResponseEntity<Integer> response = restClient.post()
+        ResponseEntity<Integer> response = loadBalancedRestClient.post()
         .uri(petServiceBaseUri)
         .body(petDTO)
         .retrieve()
@@ -34,7 +34,7 @@ public class PetServiceImpl implements PetService{
 
     @Override
     public PetDTO finPetDTO(int petId) {
-        ResponseEntity<PetDTO> response = restClient.get()
+        ResponseEntity<PetDTO> response = loadBalancedRestClient.get()
         .uri(petServiceBaseUri + "/{petId}", petId)
         .retrieve()
         .toEntity(PetDTO.class);
@@ -44,7 +44,7 @@ public class PetServiceImpl implements PetService{
     @Override
     public void updatePetDetails(int petId, String petName) {
         UpdatePetDTO updatePetDTO = new UpdatePetDTO(petName);
-        restClient.patch()
+        loadBalancedRestClient.patch()
         .uri(petServiceBaseUri + "/{petId}", petId)
         .body(updatePetDTO)
         .retrieve()
@@ -53,7 +53,7 @@ public class PetServiceImpl implements PetService{
 
     @Override
     public void deletePet(int petId) {
-        restClient.delete()
+        loadBalancedRestClient.delete()
         .uri(petServiceBaseUri + "/{petId}", petId)
         .retrieve()
         .toBodilessEntity();

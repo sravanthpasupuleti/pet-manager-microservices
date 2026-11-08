@@ -33,7 +33,7 @@ public class MailServiceImpl implements MailService {
 	@Value("${failure.message}")
 	private String failureMessage;
 
-	@Value ("${server.port}")
+	@Value ("${eureka.instance.instance-id}")
 	private String serverPort;
 
 

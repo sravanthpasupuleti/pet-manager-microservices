@@ -7,9 +7,9 @@ import org.springframework.context.annotation.PropertySource;
 
 @PropertySource("classpath:messages.properties")
 @SpringBootApplication
-public class Demo {
+public class PetManagerMailMS {
 	public static void main(String[] args) {
-		SpringApplication.run(Demo.class, args);
+		SpringApplication.run(PetManagerMailMS.class, args);
 	}
 
 }

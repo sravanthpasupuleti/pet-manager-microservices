@@ -2,12 +2,14 @@ package com.sravanth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
-@PropertySource ("classpath:messages.properties")
+@EnableEurekaServer 
 @SpringBootApplication
-public class Demo {
+public class PetmanagerDiscoveryServer {
+
 	public static void main(String[] args) {
-		SpringApplication.run(Demo.class, args);
+		SpringApplication.run(PetmanagerDiscoveryServer.class, args);
 	}
+
 }

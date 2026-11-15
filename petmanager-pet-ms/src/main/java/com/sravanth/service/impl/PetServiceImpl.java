@@ -1,6 +1,7 @@
 package com.sravanth.service.impl;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,14 +19,17 @@ import com.sravanth.repository.PetRepository;
 import com.sravanth.service.PetService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-
+@Slf4j 
 @RequiredArgsConstructor
 @Service
 public class PetServiceImpl implements PetService {
 
 	private final PetRepository petRepository;
 	private final PetMapper petMapper;
+
+	private final AtomicInteger counter = new AtomicInteger(0);
 
 	@Value ("${pet.not.found}")
 	private String petNotFound;
@@ -39,14 +43,32 @@ public class PetServiceImpl implements PetService {
 
 	@Override
 	public PetDTO findPet(int petId) throws PetNotFoundException {
+		findPetErr(petId);
 		return petRepository.findById(petId).map(petMapper::petToPetDTO).orElseThrow(() -> new PetNotFoundException(String.format(petNotFound, petId)));
+	}
+
+	private void findPetErr(int petId){
+		if (petId % 2 == 0) {
+			log.error("Simulated find failure for petId: {}", petId);
+			throw new RuntimeException(String.format("Simulated find failure for petId: %s", petId));
+		}
 	}
 
 	@Override
 	public void updatePetName(int petId, String petName) throws PetNotFoundException {
+		updatePetErr(petId);
 		Pet pet = petRepository.findById(petId).orElseThrow(() -> new PetNotFoundException(String.format(petNotFound, petId)));
 		pet.setName(petName);
 		petRepository.save(pet);
+	}
+
+	private void updatePetErr(int petId){
+		int attempt = counter.incrementAndGet();
+		if (petId % 2 == 0 && attempt < 3) {
+			log.error("Simulated update failure for petId: {}", petId);
+			throw new RuntimeException(String.format("Simulated update failure for petId: %s", petId));
+		}
+		counter.set(0);
 	}
 
 	@Override

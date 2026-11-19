@@ -37,7 +37,6 @@ public class PetServiceImpl implements PetService{
     @Retry (name = "petRetry", fallbackMethod = "findPetDTOFallBack")
     @Override
     public PetDTO finPetDTO(int petId) {
-        log.info("===== In findPet =====");
         ResponseEntity<PetDTO> response = loadBalancedRestClient.get()
         .uri(petServiceBaseUri + "/{petId}", petId)
         .retrieve()
@@ -46,8 +45,6 @@ public class PetServiceImpl implements PetService{
     }
 
     public PetDTO findPetDTOFallBack(int petId, Throwable exception){
-        log.info("===== In findPetFallback =====");
-		log.error("Pet service failed for petId {} due to {}", petId, exception.getMessage());
         return null;
     }
 

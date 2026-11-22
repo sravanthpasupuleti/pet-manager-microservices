@@ -34,10 +34,10 @@ public class PetController {
 	}
 
 	@GetMapping ("/{petId}")
-	public ResponseEntity<PetDTO> finPet(@PathVariable int petId) throws PetNotFoundException{
+	public ResponseEntity<PetDTO> findPet(@PathVariable int petId) throws PetNotFoundException{
 		System.out.println("in petFind method "+ petId);
 		PetDTO petDTO = petService.findPet(petId);
-		return ResponseEntity.status(HttpStatus.FOUND).body(petDTO);
+		return ResponseEntity.status(HttpStatus.OK).body(petDTO);
 	}
 
 	@PatchMapping ("/{petId}")

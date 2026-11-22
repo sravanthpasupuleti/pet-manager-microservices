@@ -43,7 +43,7 @@ public class OwnerController {
 	@PatchMapping("/{ownerId}")
 	public ResponseEntity<Void> updatePetDetails(@PathVariable int ownerId, @RequestBody UpdatePetDTO updatePetDTO)
 			throws OwnerNotFoundException {
-		ownerService.updatePetDetails(ownerId, updatePetDTO.name());
+		ownerService.updatePetDetails(ownerId, updatePetDTO);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 

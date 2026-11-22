@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.sravanth.dto.MailDTO;
 import com.sravanth.dto.OwnerDTO;
 import com.sravanth.dto.PetDTO;
+import com.sravanth.dto.UpdatePetDTO;
 import com.sravanth.entity.Owner;
 import com.sravanth.exception.OwnerNotFoundException;
 import com.sravanth.repository.OwnerRepository;
@@ -51,7 +52,7 @@ public class OwnerServiceImpl implements OwnerService {
 	public OwnerDTO findOwner(int ownerId) throws OwnerNotFoundException {
 		return ownerRepository.findById(ownerId)
 				.map(o -> {
-					PetDTO petDTO = petService.finPetDTO(o.getPetId());
+					PetDTO petDTO = petService.findPetDTO(o.getPetId());
 					OwnerDTO ownerDTO = ownerMapper.ownerToOwnerDTO(o);
 					ownerDTO.setPetDTO(petDTO);
 					return ownerDTO;
@@ -60,10 +61,10 @@ public class OwnerServiceImpl implements OwnerService {
 	}
 	
 	@Override
-	public void updatePetDetails(int ownerId, String petName) throws OwnerNotFoundException {
+	public void updatePetDetails(int ownerId, UpdatePetDTO updatePetDTO) throws OwnerNotFoundException {
 		Owner owner = ownerRepository.findById(ownerId)
 				.map(o -> {
-					petService.updatePetDetails(ownerId, petName);
+					petService.updatePetDetails(ownerId, updatePetDTO);
 					return o;
 				})
 				.orElseThrow(() -> new OwnerNotFoundException(String.format(ownerNotFound, ownerId)));
@@ -89,7 +90,7 @@ public class OwnerServiceImpl implements OwnerService {
 	public Page<OwnerDTO> findAllOwners(Pageable pageable) {
 		return ownerRepository.findAll(pageable)
 				.map(o -> { 
-					PetDTO petDTO = petService.finPetDTO(o.getPetId());
+					PetDTO petDTO = petService.findPetDTO(o.getPetId());
 					OwnerDTO ownerDTO = ownerMapper.ownerToOwnerDTO(o);
 					ownerDTO.setPetDTO(petDTO);
 					return ownerDTO;

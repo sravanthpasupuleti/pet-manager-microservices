@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.sravanth.dto.OwnerDTO;
+import com.sravanth.dto.UpdatePetDTO;
 import com.sravanth.exception.OwnerNotFoundException;
 
 
@@ -13,7 +14,7 @@ public interface OwnerService {
 
 	OwnerDTO findOwner(int ownerId) throws OwnerNotFoundException;
 
-	void updatePetDetails(int ownerId, String petName) throws OwnerNotFoundException;
+	void updatePetDetails(int ownerId, UpdatePetDTO updatePetDTO) throws OwnerNotFoundException;
 
 	void deleteOwner(int ownerId) throws OwnerNotFoundException;
 
